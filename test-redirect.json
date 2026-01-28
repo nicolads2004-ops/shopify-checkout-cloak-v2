@@ -1,0 +1,12 @@
+{
+  "shopId": "lITwNhm7x9fQhgvCCTFBfxZIXZntMmlu",
+  "cartTotal": 107.80,
+  "cartItems": [
+    {
+      "id": "1",
+      "name": "Test Product",
+      "price": 107.80,
+      "quantity": 1
+    }
+  ]
+}

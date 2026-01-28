@@ -1,0 +1,65 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fond pirate -->
+  <circle cx="100" cy="100" r="95" fill="#1a1a2e"/>
+  <circle cx="100" cy="100" r="90" fill="#16213e"/>
+  
+  <!-- Tête style Bob l'Éponge mais pirate -->
+  <rect x="60" y="70" width="80" height="80" rx="10" fill="#FFD93D"/>
+  <rect x="60" y="70" width="80" height="80" rx="10" fill="url(#sponge)" opacity="0.3"/>
+  
+  <!-- Bandeau de pirate -->
+  <rect x="50" y="75" width="100" height="15" fill="#000" rx="2"/>
+  <circle cx="75" cy="82" r="3" fill="#fff"/>
+  <circle cx="125" cy="82" r="3" fill="#fff"/>
+  
+  <!-- Oeil gauche (normal) -->
+  <ellipse cx="80" cy="105" rx="12" ry="15" fill="#fff"/>
+  <circle cx="80" cy="105" r="6" fill="#000"/>
+  <circle cx="82" cy="103" r="2" fill="#fff"/>
+  
+  <!-- Cache-oeil droit (pirate) -->
+  <circle cx="120" cy="105" r="15" fill="#000"/>
+  <line x1="135" y1="105" x2="150" y2="100" stroke="#000" stroke-width="3"/>
+  <line x1="105" y1="105" x2="90" y2="100" stroke="#000" stroke-width="3"/>
+  
+  <!-- Nez -->
+  <ellipse cx="100" cy="120" rx="8" ry="12" fill="#FFB84D"/>
+  
+  <!-- Sourire de pirate -->
+  <path d="M 75 130 Q 100 145 125 130" stroke="#000" stroke-width="3" fill="none"/>
+  <rect x="85" y="130" width="6" height="8" fill="#fff" rx="1"/>
+  <rect x="95" y="130" width="6" height="8" fill="#fff" rx="1"/>
+  <rect x="105" y="130" width="6" height="8" fill="#fff" rx="1"/>
+  
+  <!-- Dents en or (pirate) -->
+  <rect x="95" y="130" width="6" height="8" fill="#FFD700" rx="1"/>
+  
+  <!-- Chapeau de pirate -->
+  <path d="M 50 70 L 100 40 L 150 70 Z" fill="#000"/>
+  <ellipse cx="100" cy="70" rx="50" ry="8" fill="#000"/>
+  
+  <!-- Crâne sur le chapeau -->
+  <circle cx="100" cy="55" r="8" fill="#fff"/>
+  <rect x="96" y="60" width="8" height="6" fill="#fff" rx="1"/>
+  <circle cx="97" cy="54" r="2" fill="#000"/>
+  <circle cx="103" cy="54" r="2" fill="#000"/>
+  
+  <!-- Cicatrices de hacker/pirate -->
+  <line x1="65" y1="115" x2="70" y2="120" stroke="#8B4513" stroke-width="2"/>
+  <line x1="130" y1="115" x2="135" y2="120" stroke="#8B4513" stroke-width="2"/>
+  
+  <!-- Code binaire autour (hacker) -->
+  <text x="10" y="30" fill="#00ff00" font-family="monospace" font-size="10" opacity="0.5">101010</text>
+  <text x="150" y="30" fill="#00ff00" font-family="monospace" font-size="10" opacity="0.5">110011</text>
+  <text x="10" y="180" fill="#00ff00" font-family="monospace" font-size="10" opacity="0.5">010101</text>
+  <text x="150" y="180" fill="#00ff00" font-family="monospace" font-size="10" opacity="0.5">111000</text>
+  
+  <!-- Texture éponge -->
+  <defs>
+    <pattern id="sponge" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="5" cy="5" r="2" fill="#000" opacity="0.1"/>
+      <circle cx="15" cy="15" r="2" fill="#000" opacity="0.1"/>
+      <circle cx="10" cy="18" r="1.5" fill="#000" opacity="0.1"/>
+    </pattern>
+  </defs>
+</svg>

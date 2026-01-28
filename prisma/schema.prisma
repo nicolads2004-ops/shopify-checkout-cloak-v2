@@ -1,0 +1,134 @@
+// Schéma Prisma pour le système de rotation de checkout Shopify
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// Boutique source (Shop A) - La boutique principale
+model SourceShop {
+  id            String        @id @default(cuid())
+  name          String
+  shopifyDomain String        @unique
+  apiKey        String        @unique
+  isActive      Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  redirectLogs  RedirectLog[]
+  
+  @@map("source_shops")
+}
+
+// Boutiques cibles (Shop B, C, D...) - Reçoivent les paiements
+model TargetShop {
+  id            String        @id @default(cuid())
+  name          String
+  shopifyDomain String        @unique
+  accessToken   String
+  isActive      Boolean       @default(true)
+  weight        Int           @default(1)
+  revenueLimit  Float?
+  currentRevenue Float        @default(0)
+  dailyRevenue  Float         @default(0)
+  lastResetDate DateTime      @default(now())
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  redirectLogs  RedirectLog[]
+  
+  @@index([isActive])
+  @@map("target_shops")
+}
+
+// Modèle pour gérer l'état de la rotation
+model Rotation {
+  id           String   @id @default(cuid())
+  currentIndex Int      @default(0)
+  mode         String   @default("round-robin") // "round-robin", "manual", "weighted"
+  updatedAt    DateTime @updatedAt
+  
+  @@map("rotations")
+}
+
+// Logs des redirections de checkout
+model RedirectLog {
+  id              String      @id @default(cuid())
+  sourceShopId    String
+  sourceShop      SourceShop  @relation(fields: [sourceShopId], references: [id], onDelete: Cascade)
+  targetShopId    String
+  targetShop      TargetShop  @relation(fields: [targetShopId], references: [id], onDelete: Cascade)
+  cartTotal       Float
+  cartItems       String
+  redirectedAt    DateTime    @default(now())
+  success         Boolean     @default(true)
+  errorMessage    String?
+  checkoutUrl     String?
+  completed       Boolean     @default(false)
+  completedAt     DateTime?
+  orderId         String?
+  
+  @@index([sourceShopId])
+  @@index([targetShopId])
+  @@index([redirectedAt])
+  @@index([success])
+  @@index([completed])
+  @@map("redirect_logs")
+}
+
+// Modèle pour les produits du catalogue principal
+model Product {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  price       Float
+  imageUrl    String
+  sku         String   @unique
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([isActive])
+  @@map("products")
+}
+
+// Modèle pour les notifications d'erreurs
+model ErrorLog {
+  id        String   @id @default(cuid())
+  message   String
+  stack     String?
+  context   String?
+  createdAt DateTime @default(now())
+  
+  @@map("error_logs")
+}
+
+// Règles de rotation avancées
+model RotationRule {
+  id          String   @id @default(cuid())
+  name        String
+  type        String
+  isActive    Boolean  @default(true)
+  priority    Int      @default(0)
+  conditions  String
+  targetShopId String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("rotation_rules")
+}
+
+// Sécurité et rate limiting
+model SecurityLog {
+  id          String   @id @default(cuid())
+  ipAddress   String
+  action      String
+  blocked     Boolean  @default(false)
+  reason      String?
+  createdAt   DateTime @default(now())
+  
+  @@index([ipAddress])
+  @@map("security_logs")
+}
