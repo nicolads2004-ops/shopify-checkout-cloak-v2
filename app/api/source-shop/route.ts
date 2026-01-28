@@ -21,11 +21,11 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { name, shopifyDomain } = body
+    const { name, shopifyDomain, accessToken } = body
 
-    if (!name || !shopifyDomain) {
+    if (!name || !shopifyDomain || !accessToken) {
       return NextResponse.json(
-        { success: false, error: 'Tous les champs sont requis' },
+        { success: false, error: 'Tous les champs sont requis (nom, domaine, token)' },
         { status: 400 }
       )
     }
@@ -48,6 +48,7 @@ export async function POST(request: NextRequest) {
         name,
         shopifyDomain,
         apiKey,
+        accessToken,
         isActive: true,
       },
     })
@@ -55,6 +56,31 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       data: sourceShop,
+    })
+  } catch (error) {
+    const errorResponse = await handleApiError(error)
+    return NextResponse.json({ success: false, ...errorResponse }, { status: 500 })
+  }
+}
+
+export async function DELETE() {
+  try {
+    const sourceShop = await prisma.sourceShop.findFirst()
+    
+    if (!sourceShop) {
+      return NextResponse.json(
+        { success: false, error: 'Aucune boutique source à supprimer' },
+        { status: 404 }
+      )
+    }
+
+    await prisma.sourceShop.delete({
+      where: { id: sourceShop.id },
+    })
+
+    return NextResponse.json({
+      success: true,
+      message: 'Boutique source supprimée',
     })
   } catch (error) {
     const errorResponse = await handleApiError(error)
