@@ -15,6 +15,7 @@ model SourceShop {
   name          String
   shopifyDomain String        @unique
   apiKey        String        @unique
+  accessToken   String
   isActive      Boolean       @default(true)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
